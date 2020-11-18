@@ -1,6 +1,6 @@
 version: "3"
 services:
-  web:
+  app:
     build: .
     volumes:
       - ./web:/var/www/html/vuesplash
@@ -16,3 +16,13 @@ services:
       - ./database:/var/lib/postgresql/data
     ports:
       - 5434:5432
+  web:
+    build:
+      context: containers/nginx
+    volumes:
+      - public-data:/webapp/public
+      - tmp-data:/webapp/tmp
+    ports:
+      - 80:80
+    depends_on:
+      - app
